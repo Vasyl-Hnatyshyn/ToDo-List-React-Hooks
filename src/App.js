@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import TodoList from './TodoList'
+import {Context} from './Context'
 
 export default function App() {
   const [todos,setTodos]= useState([
@@ -12,6 +13,7 @@ export default function App() {
   const addTodo = e =>{
        if( e.key === 'Enter'){   
     setTodos ([...todos,{
+        id:Math.floor(Math.random() * Math.floor(1000)),
         title: todoTitle,
         completed: false
     }
@@ -20,15 +22,45 @@ export default function App() {
        }
   }    
 
+  
   useEffect(()=>{
-      
-      console.log ('wsww')
-      
-  }
+  const taskList = todos===null ? []: localStorage.getItem('todos');
+  setTodos(JSON.parse(taskList))
+  }, [])
+ 
+  
+  useEffect(()=>{
+   localStorage.setItem('todos',JSON.stringify(todos))  
+  }, [todos]
   )
+    
+    const removeTask = id =>{
+        setTodos(todos.filter(todo=>{
+               return  todo.id!==id            
+        }))
+    }
+    
+    const toggleTask = id =>{
+        
+        setTodos(todos.map(todo=>{
+            if(todo.id===id){
+            todo.completed = !todo.completed
+            }
+            return todo
+        }))
+        
+        
+        
+    }
+    
   
   
     return (
+    <Context.Provider value={{ 
+        removeTask,toggleTask
+        }}>    
+        
+        
       <div className="container">
         <h1>Todo app</h1>
 
@@ -43,6 +75,7 @@ export default function App() {
 
           <TodoList todos={todos} />
       </div>
+    </Context.Provider>  
     );
   
 }
