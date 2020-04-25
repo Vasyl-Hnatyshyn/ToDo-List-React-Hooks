@@ -63,14 +63,15 @@ export default function App() {
         
       <div className="container">
         <h1>Todo app</h1>
+    <h2>Get things done, one item at a time.</h2>  
 
           <div className="input-field">
             <input type="text" 
              value={todoTitle}
-             onChange = {e=> setTodoTitle(e.target.value)}
+             onChange = {e => setTodoTitle(e.target.value)}
              onKeyPress = {addTodo}
             />
-            <label>Todo name</label>
+            <label>Task name</label>
           </div>
 
           <TodoList todos={todos} />

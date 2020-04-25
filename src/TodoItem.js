@@ -17,6 +17,7 @@ if (completed) {
     <li className={visual.join(' ')}>
       <label>
         <input
+          className="one"
           type="checkbox"
           checked = {completed}
           onChange={()=>toggleTask(id)}
